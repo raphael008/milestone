@@ -2,11 +2,8 @@ package com.github.raphael008.utils;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
-import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,14 +110,14 @@ public class MybatisGeneratorUtil {
 
     private static void initTableConfig(Context context, String table) {
         DomainObjectRenamingRule renamingRule = new DomainObjectRenamingRule();
-        renamingRule.setSearchString("^Dd");
+        renamingRule.setSearchString("^(Bd)|(Dd)");
         renamingRule.setReplaceString(null);
 
         IgnoredColumn deletedColumn = new IgnoredColumn("deleted");
         IgnoredColumn ignoredColumn = new IgnoredColumn("ts");
 
         TableConfiguration tableConfig = new TableConfiguration(context);
-        tableConfig.setTableName("dd_bill_detail");
+        tableConfig.setTableName(table);
         tableConfig.setDomainObjectRenamingRule(renamingRule);
         tableConfig.addIgnoredColumn(deletedColumn);
         tableConfig.addIgnoredColumn(ignoredColumn);

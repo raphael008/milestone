@@ -1,5 +1,6 @@
 package com.github.raphael008.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -281,6 +282,66 @@ public class BillDetailExample {
 
         public Criteria andUserIdNotBetween(Long value1, Long value2) {
             addCriterion("user_id not between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceIsNull() {
+            addCriterion("bill_detail_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceIsNotNull() {
+            addCriterion("bill_detail_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceEqualTo(BigDecimal value) {
+            addCriterion("bill_detail_price =", value, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceNotEqualTo(BigDecimal value) {
+            addCriterion("bill_detail_price <>", value, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceGreaterThan(BigDecimal value) {
+            addCriterion("bill_detail_price >", value, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("bill_detail_price >=", value, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceLessThan(BigDecimal value) {
+            addCriterion("bill_detail_price <", value, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("bill_detail_price <=", value, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceIn(List<BigDecimal> values) {
+            addCriterion("bill_detail_price in", values, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceNotIn(List<BigDecimal> values) {
+            addCriterion("bill_detail_price not in", values, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("bill_detail_price between", value1, value2, "billDetailPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andBillDetailPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("bill_detail_price not between", value1, value2, "billDetailPrice");
             return (Criteria) this;
         }
     }

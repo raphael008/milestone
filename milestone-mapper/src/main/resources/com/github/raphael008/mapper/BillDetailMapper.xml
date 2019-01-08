@@ -5,6 +5,7 @@
     <id column="bill_detail_id" jdbcType="BIGINT" property="billDetailId" />
     <result column="bill_id" jdbcType="BIGINT" property="billId" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="bill_detail_price" jdbcType="DECIMAL" property="billDetailPrice" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    bill_detail_id, bill_id, user_id
+    bill_detail_id, bill_id, user_id, bill_detail_price
   </sql>
   <select id="selectByExample" parameterType="com.github.raphael008.model.BillDetailExample" resultMap="BaseResultMap">
     select
@@ -98,10 +99,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.github.raphael008.model.BillDetail">
-    insert into dd_bill_detail (bill_detail_id, bill_id, user_id
-      )
-    values (#{billDetailId,jdbcType=BIGINT}, #{billId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}
-      )
+    insert into dd_bill_detail (bill_detail_id, bill_id, user_id, 
+      bill_detail_price)
+    values (#{billDetailId,jdbcType=BIGINT}, #{billId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{billDetailPrice,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.github.raphael008.model.BillDetail">
     insert into dd_bill_detail
@@ -115,6 +116,9 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="billDetailPrice != null">
+        bill_detail_price,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="billDetailId != null">
@@ -125,6 +129,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="billDetailPrice != null">
+        #{billDetailPrice,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -146,6 +153,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
+      <if test="record.billDetailPrice != null">
+        bill_detail_price = #{record.billDetailPrice,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,7 +165,8 @@
     update dd_bill_detail
     set bill_detail_id = #{record.billDetailId,jdbcType=BIGINT},
       bill_id = #{record.billId,jdbcType=BIGINT},
-      user_id = #{record.userId,jdbcType=BIGINT}
+      user_id = #{record.userId,jdbcType=BIGINT},
+      bill_detail_price = #{record.billDetailPrice,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,13 +180,17 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
       </if>
+      <if test="billDetailPrice != null">
+        bill_detail_price = #{billDetailPrice,jdbcType=DECIMAL},
+      </if>
     </set>
     where bill_detail_id = #{billDetailId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.github.raphael008.model.BillDetail">
     update dd_bill_detail
     set bill_id = #{billId,jdbcType=BIGINT},
-      user_id = #{userId,jdbcType=BIGINT}
+      user_id = #{userId,jdbcType=BIGINT},
+      bill_detail_price = #{billDetailPrice,jdbcType=DECIMAL}
     where bill_detail_id = #{billDetailId,jdbcType=BIGINT}
   </update>
 </mapper>

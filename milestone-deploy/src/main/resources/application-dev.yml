@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://ip:port/database
+    username: username
+    password: password
+    driver-class-name: org.mariadb.jdbc.Driver
+mybatis:
+  mapper-locations: "com.github.raphael008.mapper.*Mapper.java"

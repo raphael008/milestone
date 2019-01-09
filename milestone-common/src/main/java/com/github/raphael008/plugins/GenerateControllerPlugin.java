@@ -42,8 +42,10 @@ public class GenerateControllerPlugin extends PluginAdapter {
         clazz.addImportedType(exampleType);
         clazz.addImportedType(new FullyQualifiedJavaType(service));
         clazz.addImportedType(new FullyQualifiedJavaType("org.springframework.web.bind.annotation.RestController"));
+        clazz.addImportedType(new FullyQualifiedJavaType("org.springframework.web.bind.annotation.RequestMapping"));
 //        clazz.addAnnotation(String.format("@Service(\"%s\")", firstLetterLowerCase(domainObjectName + "Service")));
-        clazz.addAnnotation(String.format("@RestController(\"%s\")", firstLetterLowerCase(domainObjectName + "Controller")));
+        clazz.addAnnotation("@RestController");
+        clazz.addAnnotation(String.format("\"@RequestMapping(value=\\\"%s\\\", produces = \\\"application/json\\\")\", entityType.getShortName().toLowerCase()"));
         clazz.setVisibility(JavaVisibility.PUBLIC);
         clazz.setSuperClass(new FullyQualifiedJavaType(String.format("%s<%s, %s, %s>",
                 baseControllerImpl,

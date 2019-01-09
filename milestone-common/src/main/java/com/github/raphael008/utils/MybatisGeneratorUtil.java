@@ -150,7 +150,7 @@ public class MybatisGeneratorUtil {
     }
 
     public static void main(String[] args) {
-        MybatisGeneratorUtil.isGenerateController = false;
+        MybatisGeneratorUtil.isGenerateController = true;
         MybatisGeneratorUtil.generate("bd_user", "bd_user_credential", "dd_bill", "dd_bill_detail");
     }
 }

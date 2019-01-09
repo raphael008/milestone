@@ -105,11 +105,23 @@ public class MybatisGeneratorUtil {
         PluginConfiguration generateBatchInsertPlugin = new PluginConfiguration();
         generateBatchInsertPlugin.setConfigurationType("com.github.raphael008.plugins.GenerateBatchInsertPlugin");
 
+        PluginConfiguration generateBatchInsertSelectivePlugin = new PluginConfiguration();
+        generateBatchInsertSelectivePlugin.setConfigurationType("com.github.raphael008.plugins.GenerateBatchInsertSelectivePlugin");
+
+        PluginConfiguration generateBatchUpdatePlugin = new PluginConfiguration();
+        generateBatchUpdatePlugin.setConfigurationType("com.github.raphael008.plugins.GenerateBatchUpdatePlugin");
+
+        PluginConfiguration generateBatchUpdateSelectivePlugin = new PluginConfiguration();
+        generateBatchUpdateSelectivePlugin.setConfigurationType("com.github.raphael008.plugins.GenerateBatchUpdateSelectivePlugin");
+
         context.addPluginConfiguration(generateLombokPlugin);
         context.addPluginConfiguration(generateMapperPlugin);
         context.addPluginConfiguration(generateServicePlugin);
         context.addPluginConfiguration(generateControllerPlugin);
         context.addPluginConfiguration(generateBatchInsertPlugin);
+        context.addPluginConfiguration(generateBatchInsertSelectivePlugin);
+        context.addPluginConfiguration(generateBatchUpdatePlugin);
+        context.addPluginConfiguration(generateBatchUpdateSelectivePlugin);
     }
 
     private static void initTableConfig(Context context, String table) {
@@ -128,8 +140,7 @@ public class MybatisGeneratorUtil {
         context.addTableConfiguration(tableConfig);
     }
 
-    public static void main(String[] args) throws Exception {
-
-        MybatisGeneratorUtil.generate("dd_bill_detail");
+    public static void main(String[] args) {
+        MybatisGeneratorUtil.generate("bd_user", "bd_user_credential", "dd_bill", "dd_bill_detail");
     }
 }

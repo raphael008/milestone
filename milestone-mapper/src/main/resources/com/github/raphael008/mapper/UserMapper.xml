@@ -288,4 +288,109 @@
       blocked = #{blocked,jdbcType=INTEGER}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
+  <insert id="insertRange" parameterType="com.github.raphael008.model.User">
+    insert into bd_user (userId, userName, userNickname, userEmail, userAge, userAvatar, userGender, userSalt, creatorId, blocked) values(#{userId, jdbcType=BIGINT}, #{userName, jdbcType=VARCHAR}, #{userNickname, jdbcType=VARCHAR}, #{userEmail, jdbcType=VARCHAR}, #{userAge, jdbcType=INTEGER}, #{userAvatar, jdbcType=VARCHAR}, #{userGender, jdbcType=INTEGER}, #{userSalt, jdbcType=VARCHAR}, #{creatorId, jdbcType=BIGINT}, #{blocked, jdbcType=INTEGER})
+  </insert>
+  <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.User">
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userNickname != null">
+        user_nickname,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userAge != null">
+        user_age,
+      </if>
+      <if test="userAvatar != null">
+        user_avatar,
+      </if>
+      <if test="userGender != null">
+        user_gender,
+      </if>
+      <if test="userSalt != null">
+        user_salt,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="blocked != null">
+        blocked,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId, jdbcType=BIGINT},
+      </if>
+      <if test="userName != null">
+        #{userName, jdbcType=VARCHAR},
+      </if>
+      <if test="userNickname != null">
+        #{userNickname, jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail, jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null">
+        #{userAge, jdbcType=INTEGER},
+      </if>
+      <if test="userAvatar != null">
+        #{userAvatar, jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null">
+        #{userGender, jdbcType=INTEGER},
+      </if>
+      <if test="userSalt != null">
+        #{userSalt, jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId, jdbcType=BIGINT},
+      </if>
+      <if test="blocked != null">
+        #{blocked, jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.User">
+    update bd_user set user_name = #{userName, jdbcType=VARCHAR}, user_nickname = #{userNickname, jdbcType=VARCHAR}, user_email = #{userEmail, jdbcType=VARCHAR}, user_age = #{userAge, jdbcType=INTEGER}, user_avatar = #{userAvatar, jdbcType=VARCHAR}, user_gender = #{userGender, jdbcType=INTEGER}, user_salt = #{userSalt, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, blocked = #{blocked, jdbcType=INTEGER} where user_id = #{userId, jdbcType=BIGINT}
+  </update>
+  <update id="updateRangeByPrimaryKeySelective" parameterType="com.github.raphael008.model.User">
+    update bd_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName, jdbcType=VARCHAR},
+      </if>
+      <if test="userNickname != null">
+        user_nickname = #{userNickname, jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail, jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null">
+        user_age = #{userAge, jdbcType=INTEGER},
+      </if>
+      <if test="userAvatar != null">
+        user_avatar = #{userAvatar, jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null">
+        user_gender = #{userGender, jdbcType=INTEGER},
+      </if>
+      <if test="userSalt != null">
+        user_salt = #{userSalt, jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId, jdbcType=BIGINT},
+      </if>
+      <if test="blocked != null">
+        blocked = #{blocked, jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{userId, jdbcType=BIGINT}
+  </update>
 </mapper>

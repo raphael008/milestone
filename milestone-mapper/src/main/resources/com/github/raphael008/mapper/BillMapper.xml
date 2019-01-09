@@ -225,4 +225,73 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where bill_id = #{billId,jdbcType=BIGINT}
   </update>
+  <insert id="insertRange" parameterType="com.github.raphael008.model.Bill">
+    insert into dd_bill (billId, billDate, billPrice, billImage, creatorId, createTime) values(#{billId, jdbcType=BIGINT}, #{billDate, jdbcType=DATE}, #{billPrice, jdbcType=DECIMAL}, #{billImage, jdbcType=VARCHAR}, #{creatorId, jdbcType=BIGINT}, #{createTime, jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.Bill">
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billId != null">
+        bill_id,
+      </if>
+      <if test="billDate != null">
+        bill_date,
+      </if>
+      <if test="billPrice != null">
+        bill_price,
+      </if>
+      <if test="billImage != null">
+        bill_image,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billId != null">
+        #{billId, jdbcType=BIGINT},
+      </if>
+      <if test="billDate != null">
+        #{billDate, jdbcType=DATE},
+      </if>
+      <if test="billPrice != null">
+        #{billPrice, jdbcType=DECIMAL},
+      </if>
+      <if test="billImage != null">
+        #{billImage, jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId, jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime, jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.Bill">
+    update dd_bill set bill_date = #{billDate, jdbcType=DATE}, bill_price = #{billPrice, jdbcType=DECIMAL}, bill_image = #{billImage, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, create_time = #{createTime, jdbcType=TIMESTAMP} where bill_id = #{billId, jdbcType=BIGINT}
+  </update>
+  <update id="updateRangeByPrimaryKeySelective" parameterType="com.github.raphael008.model.Bill">
+    update dd_bill
+    <set>
+      <if test="billDate != null">
+        bill_date = #{billDate, jdbcType=DATE},
+      </if>
+      <if test="billPrice != null">
+        bill_price = #{billPrice, jdbcType=DECIMAL},
+      </if>
+      <if test="billImage != null">
+        bill_image = #{billImage, jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId, jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime, jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bill_id = #{billId, jdbcType=BIGINT}
+  </update>
 </mapper>

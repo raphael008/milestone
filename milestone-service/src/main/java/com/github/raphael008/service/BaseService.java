@@ -11,7 +11,11 @@ public interface BaseService<T, E, K> {
 
     int insert(T record);
 
+    int insertRange(List<T> records);
+
     int insertSelective(T record);
+
+    int insertRangeSelective(List<T> records);
 
     List<T> selectByExample(E example);
 
@@ -23,5 +27,9 @@ public interface BaseService<T, E, K> {
 
     int updateByPrimaryKeySelective(T record);
 
+    int updateRangeByPrimaryKeySelective(List<T> records);
+
     int updateByPrimaryKey(T record);
+
+    int updateRangeByPrimaryKey(List<T> records);
 }

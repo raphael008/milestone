@@ -30,8 +30,18 @@ public abstract class BaseServiceImpl<T, E, K> implements BaseService<T, E, K> {
     }
 
     @Override
+    public int insertRange(List<T> records) {
+        return this.getMapper().insertRange(records);
+    }
+
+    @Override
     public int insertSelective(T record) {
         return this.getMapper().insertSelective(record);
+    }
+
+    @Override
+    public int insertRangeSelective(List<T> records) {
+        return this.getMapper().insertRangeSelective(records);
     }
 
     @Override
@@ -60,7 +70,17 @@ public abstract class BaseServiceImpl<T, E, K> implements BaseService<T, E, K> {
     }
 
     @Override
+    public int updateRangeByPrimaryKeySelective(List<T> records) {
+        return this.getMapper().updateRangeByPrimaryKeySelective(records);
+    }
+
+    @Override
     public int updateByPrimaryKey(T record) {
         return this.getMapper().updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int updateRangeByPrimaryKey(List<T> records) {
+        return this.updateRangeByPrimaryKey(records);
     }
 }

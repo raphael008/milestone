@@ -229,4 +229,19 @@
   <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.BillDetail">
     update dd_bill_detail set bill_id = #{billId, jdbcType=BIGINT}, user_id = #{userId, jdbcType=BIGINT}, bill_detail_price = #{billDetailPrice, jdbcType=DECIMAL} where bill_detail_id = #{billDetailId, jdbcType=BIGINT}
   </update>
+  <update id="updateRangeByPrimaryKeySelective" parameterType="com.github.raphael008.model.BillDetail">
+    update dd_bill_detail
+    <set>
+      <if test="billId != null">
+        bill_id = #{billId, jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId, jdbcType=BIGINT},
+      </if>
+      <if test="billDetailPrice != null">
+        bill_detail_price = #{billDetailPrice, jdbcType=DECIMAL},
+      </if>
+    </set>
+    where bill_detail_id = #{billDetailId, jdbcType=BIGINT}
+  </update>
 </mapper>

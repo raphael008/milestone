@@ -29,6 +29,8 @@ public interface BaseMapper<T, E, K> {
 
     int updateByPrimaryKeySelective(T record);
 
+    int updateRangeByPrimaryKeySelective(List<T> records);
+
     int updateByPrimaryKey(T record);
 
     int updateRangeByPrimaryKey(List<T> records);

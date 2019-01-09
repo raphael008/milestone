@@ -13,6 +13,8 @@ public interface BaseMapper<T, E, K> {
 
     int insert(T record);
 
+    int insertRange(List<T> records);
+
     int insertSelective(T record);
 
     List<T> selectByExample(E example);

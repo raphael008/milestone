@@ -193,4 +193,10 @@
       bill_detail_price = #{billDetailPrice,jdbcType=DECIMAL}
     where bill_detail_id = #{billDetailId,jdbcType=BIGINT}
   </update>
+  <insert id="insertRange" parameterType="com.github.raphael008.model.BillDetail">
+    insert into dd_bill_detail
+(billDetailId, billId, userId, billDetailPrice)
+values(#{billDetailId, jdbcType=BIGINT}, #{billId, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{billDetailPrice, jdbcType=DECIMAL})
+
+  </insert>
 </mapper>

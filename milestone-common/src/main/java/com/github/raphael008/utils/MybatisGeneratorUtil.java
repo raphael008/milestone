@@ -102,10 +102,14 @@ public class MybatisGeneratorUtil {
         PluginConfiguration generateControllerPlugin = new PluginConfiguration();
         generateControllerPlugin.setConfigurationType("com.github.raphael008.plugins.GenerateControllerPlugin");
 
+        PluginConfiguration generateBatchInsertPlugin = new PluginConfiguration();
+        generateBatchInsertPlugin.setConfigurationType("com.github.raphael008.plugins.GenerateBatchInsertPlugin");
+
         context.addPluginConfiguration(generateLombokPlugin);
         context.addPluginConfiguration(generateMapperPlugin);
         context.addPluginConfiguration(generateServicePlugin);
         context.addPluginConfiguration(generateControllerPlugin);
+        context.addPluginConfiguration(generateBatchInsertPlugin);
     }
 
     private static void initTableConfig(Context context, String table) {
@@ -126,5 +130,6 @@ public class MybatisGeneratorUtil {
 
     public static void main(String[] args) throws Exception {
 
+        MybatisGeneratorUtil.generate("dd_bill_detail");
     }
 }

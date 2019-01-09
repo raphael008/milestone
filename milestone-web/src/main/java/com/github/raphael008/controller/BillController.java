@@ -7,11 +7,14 @@ import com.github.raphael008.model.BillExample;
 import com.github.raphael008.service.BaseService;
 import com.github.raphael008.service.BillService;
 import com.github.raphael008.vo.BillRequestVO;
+import com.github.raphael008.vo.BillResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "bill", produces = "application/json")
@@ -29,5 +32,15 @@ public class BillController extends BaseControllerImpl<Bill, BillExample, Long> 
     @PostMapping("averageBillForDiDi")
     public void averageBillForDiDi(@RequestBody BillRequestVO billRequestVO) {
         billManager.averageBillForDiDi(billRequestVO);
+    }
+
+    @PostMapping("averageBillForDiDiByImage")
+    public BillRequestVO averageBillForDiDiByImage(HttpServletRequest request) {
+        try {
+            BillRequestVO billRequestVO = billManager.averageBillForDiDiByImage(request);
+            return billRequestVO;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,6 +51,7 @@ public class BillManagerImpl implements BillManager {
         bill.setBillDate(billRequestVO.getBillDate());
         bill.setBillPrice(billPrice);
         bill.setCreatorId(0L);
+        bill.setCreateTime(new Date());
         billService.insert(bill);
 
         List<BillDetail> billDetails = new ArrayList<>();
@@ -60,5 +62,8 @@ public class BillManagerImpl implements BillManager {
             billDetail.setBillDetailPrice(averagePrice);
             billDetails.add(billDetail);
         }
+        billDetailService.insertRange(billDetails);
+
+        System.out.println();
     }
 }

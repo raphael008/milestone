@@ -100,7 +100,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.github.raphael008.model.Bill">
+  <insert id="insert" keyColumn="bill_id" keyProperty="billId" parameterType="com.github.raphael008.model.Bill" useGeneratedKeys="true">
     insert into dd_bill (bill_id, bill_date, bill_price, 
       bill_image, creator_id, create_time
       )
@@ -225,8 +225,11 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where bill_id = #{billId,jdbcType=BIGINT}
   </update>
-  <insert id="insertRange" parameterType="com.github.raphael008.model.Bill">
-    insert into dd_bill (billId, billDate, billPrice, billImage, creatorId, createTime) values(#{billId, jdbcType=BIGINT}, #{billDate, jdbcType=DATE}, #{billPrice, jdbcType=DECIMAL}, #{billImage, jdbcType=VARCHAR}, #{creatorId, jdbcType=BIGINT}, #{createTime, jdbcType=TIMESTAMP})
+  <insert id="insertRange" keyColumn="bill_id" keyProperty="billId" parameterType="com.github.raphael008.model.Bill" useGeneratedKeys="true">
+    insert into dd_bill (bill_id, bill_date, bill_price, bill_image, creator_id, create_time) values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.billId, jdbcType=BIGINT}, #{item.billDate, jdbcType=DATE}, #{item.billPrice, jdbcType=DECIMAL}, #{item.billImage, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.createTime, jdbcType=TIMESTAMP})
+    </foreach>
   </insert>
   <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.Bill">
     <trim prefix="(" suffix=")" suffixOverrides=",">

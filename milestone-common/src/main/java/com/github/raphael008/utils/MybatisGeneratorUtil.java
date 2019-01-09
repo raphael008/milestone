@@ -14,6 +14,9 @@ public class MybatisGeneratorUtil {
     public static final String password = "password";
     public static final Boolean overwrite = true;
 
+    public static boolean isGenerateController = true;
+    public static boolean isGenerateJsonExample = true;
+
     public static void generate(String... tables) {
         Context context = initContext();
         initJdbcConfig(context);
@@ -99,8 +102,11 @@ public class MybatisGeneratorUtil {
         PluginConfiguration generateServicePlugin = new PluginConfiguration();
         generateServicePlugin.setConfigurationType("com.github.raphael008.plugins.GenerateServicePlugin");
 
-        PluginConfiguration generateControllerPlugin = new PluginConfiguration();
-        generateControllerPlugin.setConfigurationType("com.github.raphael008.plugins.GenerateControllerPlugin");
+        if (isGenerateController) {
+            PluginConfiguration generateControllerPlugin = new PluginConfiguration();
+            generateControllerPlugin.setConfigurationType("com.github.raphael008.plugins.GenerateControllerPlugin");
+            context.addPluginConfiguration(generateControllerPlugin);
+        }
 
         PluginConfiguration generateBatchInsertPlugin = new PluginConfiguration();
         generateBatchInsertPlugin.setConfigurationType("com.github.raphael008.plugins.GenerateBatchInsertPlugin");
@@ -114,14 +120,17 @@ public class MybatisGeneratorUtil {
         PluginConfiguration generateBatchUpdateSelectivePlugin = new PluginConfiguration();
         generateBatchUpdateSelectivePlugin.setConfigurationType("com.github.raphael008.plugins.GenerateBatchUpdateSelectivePlugin");
 
+        PluginConfiguration useGeneratedKeyPlugin = new PluginConfiguration();
+        useGeneratedKeyPlugin.setConfigurationType("com.github.raphael008.plugins.UseGeneratedKeyPlugin");
+
         context.addPluginConfiguration(generateLombokPlugin);
         context.addPluginConfiguration(generateMapperPlugin);
         context.addPluginConfiguration(generateServicePlugin);
-        context.addPluginConfiguration(generateControllerPlugin);
         context.addPluginConfiguration(generateBatchInsertPlugin);
         context.addPluginConfiguration(generateBatchInsertSelectivePlugin);
         context.addPluginConfiguration(generateBatchUpdatePlugin);
         context.addPluginConfiguration(generateBatchUpdateSelectivePlugin);
+        context.addPluginConfiguration(useGeneratedKeyPlugin);
     }
 
     private static void initTableConfig(Context context, String table) {
@@ -141,6 +150,7 @@ public class MybatisGeneratorUtil {
     }
 
     public static void main(String[] args) {
+        MybatisGeneratorUtil.isGenerateController = false;
         MybatisGeneratorUtil.generate("bd_user", "bd_user_credential", "dd_bill", "dd_bill_detail");
     }
 }

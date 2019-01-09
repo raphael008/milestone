@@ -98,7 +98,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.github.raphael008.model.BillDetail">
+  <insert id="insert" keyColumn="bill_detail_id" keyProperty="billDetailId" parameterType="com.github.raphael008.model.BillDetail" useGeneratedKeys="true">
     insert into dd_bill_detail (bill_detail_id, bill_id, user_id, 
       bill_detail_price)
     values (#{billDetailId,jdbcType=BIGINT}, #{billId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
@@ -193,8 +193,11 @@
       bill_detail_price = #{billDetailPrice,jdbcType=DECIMAL}
     where bill_detail_id = #{billDetailId,jdbcType=BIGINT}
   </update>
-  <insert id="insertRange" parameterType="com.github.raphael008.model.BillDetail">
-    insert into dd_bill_detail (billDetailId, billId, userId, billDetailPrice) values(#{billDetailId, jdbcType=BIGINT}, #{billId, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{billDetailPrice, jdbcType=DECIMAL})
+  <insert id="insertRange" keyColumn="bill_detail_id" keyProperty="billDetailId" parameterType="com.github.raphael008.model.BillDetail" useGeneratedKeys="true">
+    insert into dd_bill_detail (bill_detail_id, bill_id, user_id, bill_detail_price) values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.billDetailId, jdbcType=BIGINT}, #{item.billId, jdbcType=BIGINT}, #{item.userId, jdbcType=BIGINT}, #{item.billDetailPrice, jdbcType=DECIMAL})
+    </foreach>
   </insert>
   <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.BillDetail">
     <trim prefix="(" suffix=")" suffixOverrides=",">

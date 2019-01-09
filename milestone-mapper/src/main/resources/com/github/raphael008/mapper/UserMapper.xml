@@ -105,7 +105,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.github.raphael008.model.User">
+  <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.github.raphael008.model.User" useGeneratedKeys="true">
     insert into bd_user (user_id, user_name, user_nickname, 
       user_email, user_age, user_avatar, 
       user_gender, user_salt, creator_id, 
@@ -288,8 +288,11 @@
       blocked = #{blocked,jdbcType=INTEGER}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
-  <insert id="insertRange" parameterType="com.github.raphael008.model.User">
-    insert into bd_user (userId, userName, userNickname, userEmail, userAge, userAvatar, userGender, userSalt, creatorId, blocked) values(#{userId, jdbcType=BIGINT}, #{userName, jdbcType=VARCHAR}, #{userNickname, jdbcType=VARCHAR}, #{userEmail, jdbcType=VARCHAR}, #{userAge, jdbcType=INTEGER}, #{userAvatar, jdbcType=VARCHAR}, #{userGender, jdbcType=INTEGER}, #{userSalt, jdbcType=VARCHAR}, #{creatorId, jdbcType=BIGINT}, #{blocked, jdbcType=INTEGER})
+  <insert id="insertRange" keyColumn="user_id" keyProperty="userId" parameterType="com.github.raphael008.model.User" useGeneratedKeys="true">
+    insert into bd_user (user_id, user_name, user_nickname, user_email, user_age, user_avatar, user_gender, user_salt, creator_id, blocked) values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.userId, jdbcType=BIGINT}, #{item.userName, jdbcType=VARCHAR}, #{item.userNickname, jdbcType=VARCHAR}, #{item.userEmail, jdbcType=VARCHAR}, #{item.userAge, jdbcType=INTEGER}, #{item.userAvatar, jdbcType=VARCHAR}, #{item.userGender, jdbcType=INTEGER}, #{item.userSalt, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.blocked, jdbcType=INTEGER})
+    </foreach>
   </insert>
   <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.User">
     <trim prefix="(" suffix=")" suffixOverrides=",">

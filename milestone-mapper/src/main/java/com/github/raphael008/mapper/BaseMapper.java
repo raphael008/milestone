@@ -17,6 +17,8 @@ public interface BaseMapper<T, E, K> {
 
     int insertSelective(T record);
 
+    int insertRangeSelective(List<T> records);
+
     List<T> selectByExample(E example);
 
     T selectByPrimaryKey(K primaryKey);
@@ -28,4 +30,6 @@ public interface BaseMapper<T, E, K> {
     int updateByPrimaryKeySelective(T record);
 
     int updateByPrimaryKey(T record);
+
+    int updateRangeByPrimaryKey(List<T> records);
 }

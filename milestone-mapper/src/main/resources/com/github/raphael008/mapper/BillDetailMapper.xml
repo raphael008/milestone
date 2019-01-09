@@ -194,9 +194,39 @@
     where bill_detail_id = #{billDetailId,jdbcType=BIGINT}
   </update>
   <insert id="insertRange" parameterType="com.github.raphael008.model.BillDetail">
-    insert into dd_bill_detail
-(billDetailId, billId, userId, billDetailPrice)
-values(#{billDetailId, jdbcType=BIGINT}, #{billId, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{billDetailPrice, jdbcType=DECIMAL})
-
+    insert into dd_bill_detail (billDetailId, billId, userId, billDetailPrice) values(#{billDetailId, jdbcType=BIGINT}, #{billId, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{billDetailPrice, jdbcType=DECIMAL})
   </insert>
+  <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.BillDetail">
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billDetailId != null">
+        bill_detail_id,
+      </if>
+      <if test="billId != null">
+        bill_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="billDetailPrice != null">
+        bill_detail_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billDetailId != null">
+        #{billDetailId, jdbcType=BIGINT},
+      </if>
+      <if test="billId != null">
+        #{billId, jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId, jdbcType=BIGINT},
+      </if>
+      <if test="billDetailPrice != null">
+        #{billDetailPrice, jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.BillDetail">
+    update dd_bill_detail set bill_id = #{billId, jdbcType=BIGINT}, user_id = #{userId, jdbcType=BIGINT}, bill_detail_price = #{billDetailPrice, jdbcType=DECIMAL} where bill_detail_id = #{billDetailId, jdbcType=BIGINT}
+  </update>
 </mapper>

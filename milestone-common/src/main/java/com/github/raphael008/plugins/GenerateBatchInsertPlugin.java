@@ -20,12 +20,7 @@ public class GenerateBatchInsertPlugin extends PluginAdapter {
 
     @Override
     public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
-
         List<IntrospectedColumn> allColumns = introspectedTable.getAllColumns();
-        List<IntrospectedColumn> baseColumns = introspectedTable.getBaseColumns();
-
-        String aliasedFullyQualifiedTableNameAtRuntime = introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime();
-        String fullyQualifiedTableNameAtRuntime = introspectedTable.getFullyQualifiedTableNameAtRuntime();
         XmlElement insertRange = new XmlElement("insert");
         insertRange.addAttribute(new Attribute("id", "insertRange"));
         insertRange.addAttribute(new Attribute("parameterType", introspectedTable.getBaseRecordType()));
@@ -41,15 +36,14 @@ public class GenerateBatchInsertPlugin extends PluginAdapter {
                 .collect(Collectors.joining(", "));
 
         StringBuilder sql = new StringBuilder();
-        sql.append(String.format("insert into %s%n", introspectedTable.getFullyQualifiedTableNameAtRuntime()));
-        sql.append(String.format("(%s)%n", columns));
-        sql.append(String.format("values(%s)%n", valueColumns));
+        sql.append(String.format("insert into %s ", introspectedTable.getFullyQualifiedTableNameAtRuntime()));
+        sql.append(String.format("(%s) ", columns));
+        sql.append(String.format("values(%s)", valueColumns));
 
         insertRange.addElement(new TextElement(sql.toString()));
 
         XmlElement rootElement = document.getRootElement();
         rootElement.addElement(insertRange);
-//        return false;
         return super.sqlMapDocumentGenerated(document, introspectedTable);
     }
 }

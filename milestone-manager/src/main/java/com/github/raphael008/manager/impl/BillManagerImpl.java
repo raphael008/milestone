@@ -6,6 +6,7 @@ import com.github.raphael008.model.BillDetail;
 import com.github.raphael008.service.BillDetailService;
 import com.github.raphael008.service.BillService;
 import com.github.raphael008.vo.BillRequestVO;
+import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.Tesseract;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -27,6 +28,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BillManagerImpl implements BillManager {
 
@@ -100,6 +102,8 @@ public class BillManagerImpl implements BillManager {
         Tesseract tesseract = new Tesseract();
         tesseract.setLanguage("eng");
         String price = tesseract.doOCR(subimage);
+
+        log.info("{}", price);
 
         price = price.replaceAll("\n", "");
 

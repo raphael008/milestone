@@ -4,5 +4,10 @@ spring:
     username: username
     password: password
     driver-class-name: org.mariadb.jdbc.Driver
-mybatis:
-  mapper-locations: "com.github.raphael008.mapper.*Mapper.java"
+
+logging:
+  level:
+    com.github.raphael008.mapper: trace
+
+path:
+  image:

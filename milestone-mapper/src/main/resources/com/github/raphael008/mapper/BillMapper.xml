@@ -6,6 +6,7 @@
     <result column="bill_date" jdbcType="DATE" property="billDate" />
     <result column="bill_price" jdbcType="DECIMAL" property="billPrice" />
     <result column="bill_image" jdbcType="VARCHAR" property="billImage" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    bill_id, bill_date, bill_price, bill_image, creator_id, create_time
+    bill_id, bill_date, bill_price, bill_image, remarks, creator_id, create_time
   </sql>
   <select id="selectByExample" parameterType="com.github.raphael008.model.BillExample" resultMap="BaseResultMap">
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" keyColumn="bill_id" keyProperty="billId" parameterType="com.github.raphael008.model.Bill" useGeneratedKeys="true">
     insert into dd_bill (bill_id, bill_date, bill_price, 
-      bill_image, creator_id, create_time
-      )
+      bill_image, remarks, creator_id, 
+      create_time)
     values (#{billId,jdbcType=BIGINT}, #{billDate,jdbcType=DATE}, #{billPrice,jdbcType=DECIMAL}, 
-      #{billImage,jdbcType=VARCHAR}, #{creatorId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{billImage,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{creatorId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.github.raphael008.model.Bill">
     insert into dd_bill
@@ -122,6 +123,9 @@
       </if>
       <if test="billImage != null">
         bill_image,
+      </if>
+      <if test="remarks != null">
+        remarks,
       </if>
       <if test="creatorId != null">
         creator_id,
@@ -142,6 +146,9 @@
       </if>
       <if test="billImage != null">
         #{billImage,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="creatorId != null">
         #{creatorId,jdbcType=BIGINT},
@@ -172,6 +179,9 @@
       <if test="record.billImage != null">
         bill_image = #{record.billImage,jdbcType=VARCHAR},
       </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
       <if test="record.creatorId != null">
         creator_id = #{record.creatorId,jdbcType=BIGINT},
       </if>
@@ -189,6 +199,7 @@
       bill_date = #{record.billDate,jdbcType=DATE},
       bill_price = #{record.billPrice,jdbcType=DECIMAL},
       bill_image = #{record.billImage,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
       creator_id = #{record.creatorId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -207,6 +218,9 @@
       <if test="billImage != null">
         bill_image = #{billImage,jdbcType=VARCHAR},
       </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
       <if test="creatorId != null">
         creator_id = #{creatorId,jdbcType=BIGINT},
       </if>
@@ -221,14 +235,15 @@
     set bill_date = #{billDate,jdbcType=DATE},
       bill_price = #{billPrice,jdbcType=DECIMAL},
       bill_image = #{billImage,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
       creator_id = #{creatorId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where bill_id = #{billId,jdbcType=BIGINT}
   </update>
   <insert id="insertRange" keyColumn="bill_id" keyProperty="billId" parameterType="com.github.raphael008.model.Bill" useGeneratedKeys="true">
-    insert into dd_bill (bill_id, bill_date, bill_price, bill_image, creator_id, create_time) values
+    insert into dd_bill (bill_id, bill_date, bill_price, bill_image, remarks, creator_id, create_time) values
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.billId, jdbcType=BIGINT}, #{item.billDate, jdbcType=DATE}, #{item.billPrice, jdbcType=DECIMAL}, #{item.billImage, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.createTime, jdbcType=TIMESTAMP})
+      (#{item.billId, jdbcType=BIGINT}, #{item.billDate, jdbcType=DATE}, #{item.billPrice, jdbcType=DECIMAL}, #{item.billImage, jdbcType=VARCHAR}, #{item.remarks, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.createTime, jdbcType=TIMESTAMP})
     </foreach>
   </insert>
   <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.Bill">
@@ -244,6 +259,9 @@
       </if>
       <if test="billImage != null">
         bill_image,
+      </if>
+      <if test="remarks != null">
+        remarks,
       </if>
       <if test="creatorId != null">
         creator_id,
@@ -265,6 +283,9 @@
       <if test="billImage != null">
         #{billImage, jdbcType=VARCHAR},
       </if>
+      <if test="remarks != null">
+        #{remarks, jdbcType=VARCHAR},
+      </if>
       <if test="creatorId != null">
         #{creatorId, jdbcType=BIGINT},
       </if>
@@ -274,7 +295,7 @@
     </trim>
   </insert>
   <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.Bill">
-    update dd_bill set bill_date = #{billDate, jdbcType=DATE}, bill_price = #{billPrice, jdbcType=DECIMAL}, bill_image = #{billImage, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, create_time = #{createTime, jdbcType=TIMESTAMP} where bill_id = #{billId, jdbcType=BIGINT}
+    update dd_bill set bill_date = #{billDate, jdbcType=DATE}, bill_price = #{billPrice, jdbcType=DECIMAL}, bill_image = #{billImage, jdbcType=VARCHAR}, remarks = #{remarks, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, create_time = #{createTime, jdbcType=TIMESTAMP} where bill_id = #{billId, jdbcType=BIGINT}
   </update>
   <update id="updateRangeByPrimaryKeySelective" parameterType="com.github.raphael008.model.Bill">
     update dd_bill
@@ -287,6 +308,9 @@
       </if>
       <if test="billImage != null">
         bill_image = #{billImage, jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks, jdbcType=VARCHAR},
       </if>
       <if test="creatorId != null">
         creator_id = #{creatorId, jdbcType=BIGINT},

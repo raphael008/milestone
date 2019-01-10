@@ -6,11 +6,12 @@ import com.github.raphael008.model.BillDetail;
 import com.github.raphael008.service.BillDetailService;
 import com.github.raphael008.service.BillService;
 import com.github.raphael008.vo.BillRequestVO;
-import com.github.raphael008.vo.BillResponseVO;
 import net.sourceforge.tess4j.Tesseract;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,14 +21,17 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class BillManagerImpl implements BillManager {
+
+    @Value("${path.image}")
+    private String uploadPath;
 
     @Autowired
     private BillService billService;
@@ -58,6 +62,8 @@ public class BillManagerImpl implements BillManager {
         Bill bill = new Bill();
         bill.setBillDate(billRequestVO.getBillDate());
         bill.setBillPrice(billPrice);
+        bill.setBillImage(billRequestVO.getBillImage());
+        bill.setRemarks(billRequestVO.getRemarks());
         bill.setCreatorId(0L);
         bill.setCreateTime(new Date());
         billService.insert(bill);
@@ -78,10 +84,13 @@ public class BillManagerImpl implements BillManager {
     @Override
     public BillRequestVO averageBillForDiDiByImage(HttpServletRequest request) throws Exception {
         MultipartHttpServletRequest formData = (MultipartHttpServletRequest) request;
+        Date billDate = DateUtils.parseDate(formData.getParameter("billDate"), "yyyy-MM-dd");
         MultipartFile file = formData.getFile("file");
         String[] passengers = formData.getParameterValues("passenger");
+        String remarks = formData.getParameter("remarks");
 
-        String filePath = "C:\\Users\\Meow\\Desktop\\Image\\" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmssuuu") + ".png";
+        String fileName = String.format("%s.png", DateFormatUtils.format(new Date(), "yyyyMMddHHmmssuuu"));
+        String filePath = Paths.get(uploadPath, fileName).toString();
         file.transferTo(new File(filePath));
 
         File image = new File(filePath);
@@ -95,8 +104,10 @@ public class BillManagerImpl implements BillManager {
         price = price.replaceAll("\n", "");
 
         BillRequestVO billRequestVO = new BillRequestVO();
-        billRequestVO.setBillDate(new Date());
+        billRequestVO.setBillDate(billDate);
         billRequestVO.setBillPrice(new BigDecimal(price));
+        billRequestVO.setBillImage(fileName);
+        billRequestVO.setRemarks(remarks);
         billRequestVO.setPassengers(Arrays.stream(passengers).map(Long::new).collect(Collectors.toList()));
         averageBillForDiDi(billRequestVO);
         return billRequestVO;

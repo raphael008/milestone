@@ -15,5 +15,9 @@ public class BillRequestVO {
 
     private BigDecimal billPrice;
 
+    private String billImage;
+
+    private String remarks;
+
     private List<Long> passengers;
 }

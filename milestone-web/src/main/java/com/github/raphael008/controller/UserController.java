@@ -6,9 +6,11 @@ import com.github.raphael008.model.UserExample;
 import com.github.raphael008.service.BaseService;
 import com.github.raphael008.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("userController")
+@RestController
+@RequestMapping(value="user", produces = "application/json")
 public class UserController extends BaseControllerImpl<User, UserExample, Long> {
     @Autowired
     private UserService userService;

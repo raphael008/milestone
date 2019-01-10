@@ -6,9 +6,11 @@ import com.github.raphael008.model.BillDetailExample;
 import com.github.raphael008.service.BaseService;
 import com.github.raphael008.service.BillDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("billDetailController")
+@RestController
+@RequestMapping(value="billDetail", produces = "application/json")
 public class BillDetailController extends BaseControllerImpl<BillDetail, BillDetailExample, Long> {
     @Autowired
     private BillDetailService billDetailService;

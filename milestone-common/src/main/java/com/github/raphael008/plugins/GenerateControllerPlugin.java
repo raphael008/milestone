@@ -36,6 +36,14 @@ public class GenerateControllerPlugin extends PluginAdapter {
         String service = targetPackage + "." + domainObjectName + "Controller";
         String serviceImpl = targetPackage + "." + domainObjectName + "Controller";
 
+        String typeName = entityType.getShortName();
+        char upperCase = typeName.charAt(0);
+        char lowerCase =  upperCase;
+        if (upperCase >= 'A' && upperCase <= 'Z') {
+            lowerCase = (char)(upperCase + 32);
+        }
+        typeName = typeName.replaceFirst(Character.toString(upperCase), Character.toString(lowerCase));
+
         TopLevelClass clazz = new TopLevelClass(new FullyQualifiedJavaType(serviceImpl));
         clazz.addImportedType(new FullyQualifiedJavaType(baseControllerImpl));
         clazz.addImportedType(entityType);
@@ -45,7 +53,7 @@ public class GenerateControllerPlugin extends PluginAdapter {
         clazz.addImportedType(new FullyQualifiedJavaType("org.springframework.web.bind.annotation.RequestMapping"));
 //        clazz.addAnnotation(String.format("@Service(\"%s\")", firstLetterLowerCase(domainObjectName + "Service")));
         clazz.addAnnotation("@RestController");
-        clazz.addAnnotation(String.format("\"@RequestMapping(value=\\\"%s\\\", produces = \\\"application/json\\\")\", entityType.getShortName().toLowerCase()"));
+        clazz.addAnnotation(String.format("@RequestMapping(value=\"%s\", produces = \"application/json\")", typeName));
         clazz.setVisibility(JavaVisibility.PUBLIC);
         clazz.setSuperClass(new FullyQualifiedJavaType(String.format("%s<%s, %s, %s>",
                 baseControllerImpl,

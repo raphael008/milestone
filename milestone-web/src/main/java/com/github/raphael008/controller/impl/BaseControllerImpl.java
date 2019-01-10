@@ -2,6 +2,8 @@ package com.github.raphael008.controller.impl;
 
 import com.github.raphael008.controller.BaseController;
 import com.github.raphael008.service.BaseService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ public abstract class BaseControllerImpl<T, E, K> implements BaseController<T, E
         return this.getService().selectByExample(example);
     }
 
+    @RequestMapping(value = "findById", method = RequestMethod.POST, produces = "application/json")
     @Override
     public T selectByPrimaryKey(K primaryKey) {
         return (T) this.getService().selectByPrimaryKey(primaryKey);

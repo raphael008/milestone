@@ -119,7 +119,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{blocked,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.github.raphael008.model.User">
+  <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.github.raphael008.model.User" useGeneratedKeys="true">
     insert into bd_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -333,7 +333,7 @@
       (#{item.userId, jdbcType=BIGINT}, #{item.userName, jdbcType=VARCHAR}, #{item.userNickname, jdbcType=VARCHAR}, #{item.userEmail, jdbcType=VARCHAR}, #{item.userAge, jdbcType=INTEGER}, #{item.userAvatar, jdbcType=VARCHAR}, #{item.userGender, jdbcType=INTEGER}, #{item.userSalt, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.createTime, jdbcType=TIMESTAMP}, #{item.blocked, jdbcType=INTEGER}, #{item.deleted, jdbcType=INTEGER})
     </foreach>
   </insert>
-  <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.User">
+  <insert id="insertRangeSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.github.raphael008.model.User" useGeneratedKeys="true">
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
         user_id,

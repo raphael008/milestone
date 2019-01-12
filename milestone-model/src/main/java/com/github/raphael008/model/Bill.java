@@ -21,6 +21,4 @@ public class Bill {
     private Long creatorId;
 
     private Date createTime;
-
-    private Integer deleted;
 }

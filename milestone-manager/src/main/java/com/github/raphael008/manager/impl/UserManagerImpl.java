@@ -10,8 +10,10 @@ import com.github.raphael008.vo.UserRequestVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ public class UserManagerImpl implements UserManager {
     @Autowired
     private UserCredentialService userCredentialService;
 
+    @Transactional
     @Override
     public Map addUser(UserRequestVO userRequestVO) {
         SecureRandom random = new SecureRandom();
@@ -33,7 +36,8 @@ public class UserManagerImpl implements UserManager {
         ReflectionUtil.copySameField(userRequestVO, user);
         user.setUserSalt(userSalt);
         user.setCreatorId(0L);
-        userService.insertSelective(user);
+        user.setCreateTime(new Date());
+        userService.insert(user);
 
         Long userId = user.getUserId();
         String userName = userRequestVO.getUserName();

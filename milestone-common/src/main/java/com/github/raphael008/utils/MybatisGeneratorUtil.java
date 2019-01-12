@@ -138,19 +138,19 @@ public class MybatisGeneratorUtil {
         renamingRule.setSearchString("^(Bd)|(Dd)");
         renamingRule.setReplaceString(null);
 
-        IgnoredColumn deletedColumn = new IgnoredColumn("deleted");
+//        IgnoredColumn deletedColumn = new IgnoredColumn("deleted");
         IgnoredColumn ignoredColumn = new IgnoredColumn("ts");
 
         TableConfiguration tableConfig = new TableConfiguration(context);
         tableConfig.setTableName(table);
         tableConfig.setDomainObjectRenamingRule(renamingRule);
-        tableConfig.addIgnoredColumn(deletedColumn);
+//        tableConfig.addIgnoredColumn(deletedColumn);
         tableConfig.addIgnoredColumn(ignoredColumn);
         context.addTableConfiguration(tableConfig);
     }
 
     public static void main(String[] args) {
-        MybatisGeneratorUtil.isGenerateController = true;
-        MybatisGeneratorUtil.generate("bd_user", "bd_user_credential", "dd_bill", "dd_bill_detail");
+        MybatisGeneratorUtil.isGenerateController = false;
+        MybatisGeneratorUtil.generate("bd_user");
     }
 }

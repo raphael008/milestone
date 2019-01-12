@@ -9,11 +9,13 @@ import com.github.raphael008.utils.ReflectionUtil;
 import com.github.raphael008.vo.UserRequestVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class UserManagerImpl implements UserManager {
 
     @Autowired
@@ -34,7 +36,7 @@ public class UserManagerImpl implements UserManager {
         userService.insertSelective(user);
 
         Long userId = user.getUserId();
-        String userName = userRequestVO.getUsername();
+        String userName = userRequestVO.getUserName();
         String password = userRequestVO.getPassword();
 
         String hashedPassword = BCrypt.hashpw(password, userSalt);

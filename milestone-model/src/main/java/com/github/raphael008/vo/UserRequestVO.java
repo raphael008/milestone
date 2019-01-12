@@ -8,7 +8,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class UserRequestVO {
-    private String username;
+    private String userName;
 
     private String password;
 

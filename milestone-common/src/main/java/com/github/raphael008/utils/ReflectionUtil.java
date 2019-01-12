@@ -17,8 +17,8 @@ public class ReflectionUtil {
             Class<?> sourceClass = source.getClass();
             Class<?> targetClass = target.getClass();
 
-            Field[] sourceFields = sourceClass.getClass().getDeclaredFields();
-            Field[] targetFields = targetClass.getClass().getDeclaredFields();
+            Field[] sourceFields = sourceClass.getDeclaredFields();
+            Field[] targetFields = targetClass.getDeclaredFields();
 
             List<String> sourceFieldNameList = Arrays.stream(sourceFields)
                     .map(Field::getName)
@@ -38,8 +38,13 @@ public class ReflectionUtil {
                     Type targetFieldType = targetField.getGenericType();
 
                     if (sourceFieldType == targetFieldType) {
+                        sourceField.setAccessible(true);
                         Object sourceFieldValue = sourceField.get(source);
+                        sourceField.setAccessible(false);
+
+                        targetField.setAccessible(true);
                         targetField.set(target, sourceFieldValue);
+                        targetField.setAccessible(true);
                     }
                 } catch (NoSuchFieldException ignored) {
                     // Ignored

@@ -33,6 +33,16 @@ public class UseGeneratedKeyPlugin extends PluginAdapter {
 
     @Override
     public boolean sqlMapInsertSelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        return super.sqlMapInsertSelectiveElementGenerated(element, introspectedTable);
+        List<IntrospectedColumn> primaryKeyColumns = introspectedTable.getPrimaryKeyColumns();
+        IntrospectedColumn primaryKeyColumn = primaryKeyColumns.stream()
+                .filter(IntrospectedColumn::isAutoIncrement)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(String.format("生成文件时发生错误, 表: %s, 无自增主键。", introspectedTable.getFullyQualifiedTableNameAtRuntime())));
+
+        element.addAttribute(new Attribute("useGeneratedKeys", "true"));
+        element.addAttribute(new Attribute("keyColumn", primaryKeyColumn.getActualColumnName()));
+        element.addAttribute(new Attribute("keyProperty", JavaBeansUtil.getCamelCaseString(primaryKeyColumn.getActualColumnName(), false)));
+
+        return super.sqlMapInsertElementGenerated(element, introspectedTable);
     }
 }

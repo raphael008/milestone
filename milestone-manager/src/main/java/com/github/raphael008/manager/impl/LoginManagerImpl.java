@@ -1,6 +1,7 @@
 package com.github.raphael008.manager.impl;
 
 import com.github.raphael008.commons.LoginContext;
+import com.github.raphael008.enums.LoginType;
 import com.github.raphael008.manager.LoginManager;
 import com.github.raphael008.model.User;
 import com.github.raphael008.model.UserCredential;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
@@ -55,5 +57,35 @@ public class LoginManagerImpl implements LoginManager {
         } else {
             throw new RuntimeException("登录失败，密码错误。");
         }
+    }
+
+    @Override
+    public Boolean checkAuth(HttpServletRequest request, LoginType loginType) {
+        switch (loginType) {
+            case WEB:
+                return checkAuthForWeb(request);
+            case APP:
+                break;
+            case WECHAT:
+                break;
+        }
+
+        return false;
+    }
+
+    @Override
+    public Boolean checkAuthForWeb(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (Objects.isNull(session)) {
+            return false;
+        }
+
+        LoginContext context = (LoginContext) session.getAttribute("environment");
+        if (Objects.isNull(context)) {
+            return false;
+        }
+
+        LoginContext.setContext(context);
+        return true;
     }
 }

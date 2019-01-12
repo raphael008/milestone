@@ -1,8 +1,7 @@
 package com.github.raphael008.manager;
 
-import com.github.raphael008.vo.UserResponseVO;
-import org.springframework.stereotype.Service;
+import com.github.raphael008.vo.LoginResponseVO;
 
 public interface LoginManager {
-    UserResponseVO login(String username, String password);
+    LoginResponseVO login(String username, String password);
 }

@@ -5,5 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserResponseVO {
+public class LoginRequestVO {
+
+    private String username;
+
+    private String password;
 }

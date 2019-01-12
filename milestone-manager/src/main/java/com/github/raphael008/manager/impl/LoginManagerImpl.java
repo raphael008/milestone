@@ -5,7 +5,7 @@ import com.github.raphael008.model.User;
 import com.github.raphael008.model.UserCredential;
 import com.github.raphael008.service.UserCredentialService;
 import com.github.raphael008.service.UserService;
-import com.github.raphael008.vo.UserResponseVO;
+import com.github.raphael008.vo.LoginResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class LoginManagerImpl implements LoginManager {
     private UserCredentialService userCredentialService;
 
     @Override
-    public UserResponseVO login(String username, String password) {
+    public LoginResponseVO login(String username, String password) {
         User user = userService.findByUsername(username);
         if (Objects.isNull(user)) {
             throw new RuntimeException("登陆失败，此用户不存在。");

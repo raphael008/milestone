@@ -2,16 +2,13 @@ package com.github.raphael008.manager.impl;
 
 import com.github.raphael008.manager.LoginManager;
 import com.github.raphael008.model.User;
-import com.github.raphael008.model.UserExample;
+import com.github.raphael008.model.UserCredential;
 import com.github.raphael008.service.UserCredentialService;
 import com.github.raphael008.service.UserService;
-import com.github.raphael008.service.impl.UserServiceImpl;
 import com.github.raphael008.vo.UserResponseVO;
-import com.lowagie.text.pdf.PRIndirectReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -30,6 +27,7 @@ public class LoginManagerImpl implements LoginManager {
             throw new RuntimeException("登陆失败，此用户不存在。");
         }
 
+        UserCredential userCredential = userCredentialService.findByUserId(user.getUserId());
         return null;
     }
 }

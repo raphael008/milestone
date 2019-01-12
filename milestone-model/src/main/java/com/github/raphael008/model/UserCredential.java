@@ -11,4 +11,6 @@ public class UserCredential {
     private Long userId;
 
     private String userPassword;
+
+    private Integer deleted;
 }

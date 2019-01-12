@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserCredentialMapper extends BaseMapper<UserCredential, UserCredentialExample, Long> {
+    UserCredential findByUserId(@Param("userId") Long userId);
 }

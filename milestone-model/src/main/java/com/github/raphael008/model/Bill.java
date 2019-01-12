@@ -1,10 +1,9 @@
 package com.github.raphael008.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -22,4 +21,6 @@ public class Bill {
     private Long creatorId;
 
     private Date createTime;
+
+    private Integer deleted;
 }

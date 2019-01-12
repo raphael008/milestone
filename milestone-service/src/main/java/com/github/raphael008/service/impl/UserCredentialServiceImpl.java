@@ -8,8 +8,6 @@ import com.github.raphael008.service.UserCredentialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service("userCredentialService")
 public class UserCredentialServiceImpl extends BaseServiceImpl<UserCredential, UserCredentialExample, Long> implements UserCredentialService {
     @Autowired
@@ -21,11 +19,6 @@ public class UserCredentialServiceImpl extends BaseServiceImpl<UserCredential, U
 
     @Override
     public UserCredential findByUserId(Long userId) {
-        UserCredentialExample userCredentialExample = new UserCredentialExample();
-        userCredentialExample.createCriteria()
-                .andUserIdEqualTo(userId);
-
-        List<UserCredentialExample> userCredentialExamples = selectByExample(userCredentialExample);
-        return null;
+        return userCredentialMapper.findByUserId(userId);
     }
 }

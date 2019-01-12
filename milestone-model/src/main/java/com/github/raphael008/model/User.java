@@ -1,5 +1,6 @@
 package com.github.raphael008.model;
 
+import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +25,9 @@ public class User {
 
     private Long creatorId;
 
+    private Date createTime;
+
     private Integer blocked;
+
+    private Integer deleted;
 }

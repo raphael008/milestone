@@ -6,6 +6,7 @@
     <result column="bill_id" jdbcType="BIGINT" property="billId" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="bill_detail_price" jdbcType="DECIMAL" property="billDetailPrice" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    bill_detail_id, bill_id, user_id, bill_detail_price
+    bill_detail_id, bill_id, user_id, bill_detail_price, deleted
   </sql>
   <select id="selectByExample" parameterType="com.github.raphael008.model.BillDetailExample" resultMap="BaseResultMap">
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" keyColumn="bill_detail_id" keyProperty="billDetailId" parameterType="com.github.raphael008.model.BillDetail" useGeneratedKeys="true">
     insert into dd_bill_detail (bill_detail_id, bill_id, user_id, 
-      bill_detail_price)
+      bill_detail_price, deleted)
     values (#{billDetailId,jdbcType=BIGINT}, #{billId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
-      #{billDetailPrice,jdbcType=DECIMAL})
+      #{billDetailPrice,jdbcType=DECIMAL}, #{deleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.github.raphael008.model.BillDetail">
     insert into dd_bill_detail
@@ -119,6 +120,9 @@
       <if test="billDetailPrice != null">
         bill_detail_price,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="billDetailId != null">
@@ -132,6 +136,9 @@
       </if>
       <if test="billDetailPrice != null">
         #{billDetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.billDetailPrice != null">
         bill_detail_price = #{record.billDetailPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set bill_detail_id = #{record.billDetailId,jdbcType=BIGINT},
       bill_id = #{record.billId,jdbcType=BIGINT},
       user_id = #{record.userId,jdbcType=BIGINT},
-      bill_detail_price = #{record.billDetailPrice,jdbcType=DECIMAL}
+      bill_detail_price = #{record.billDetailPrice,jdbcType=DECIMAL},
+      deleted = #{record.deleted,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="billDetailPrice != null">
         bill_detail_price = #{billDetailPrice,jdbcType=DECIMAL},
       </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
     </set>
     where bill_detail_id = #{billDetailId,jdbcType=BIGINT}
   </update>
@@ -190,13 +204,14 @@
     update dd_bill_detail
     set bill_id = #{billId,jdbcType=BIGINT},
       user_id = #{userId,jdbcType=BIGINT},
-      bill_detail_price = #{billDetailPrice,jdbcType=DECIMAL}
+      bill_detail_price = #{billDetailPrice,jdbcType=DECIMAL},
+      deleted = #{deleted,jdbcType=INTEGER}
     where bill_detail_id = #{billDetailId,jdbcType=BIGINT}
   </update>
   <insert id="insertRange" keyColumn="bill_detail_id" keyProperty="billDetailId" parameterType="com.github.raphael008.model.BillDetail" useGeneratedKeys="true">
-    insert into dd_bill_detail (bill_detail_id, bill_id, user_id, bill_detail_price) values
+    insert into dd_bill_detail (bill_detail_id, bill_id, user_id, bill_detail_price, deleted) values
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.billDetailId, jdbcType=BIGINT}, #{item.billId, jdbcType=BIGINT}, #{item.userId, jdbcType=BIGINT}, #{item.billDetailPrice, jdbcType=DECIMAL})
+      (#{item.billDetailId, jdbcType=BIGINT}, #{item.billId, jdbcType=BIGINT}, #{item.userId, jdbcType=BIGINT}, #{item.billDetailPrice, jdbcType=DECIMAL}, #{item.deleted, jdbcType=INTEGER})
     </foreach>
   </insert>
   <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.BillDetail">
@@ -213,6 +228,9 @@
       <if test="billDetailPrice != null">
         bill_detail_price,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="billDetailId != null">
@@ -227,10 +245,13 @@
       <if test="billDetailPrice != null">
         #{billDetailPrice, jdbcType=DECIMAL},
       </if>
+      <if test="deleted != null">
+        #{deleted, jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.BillDetail">
-    update dd_bill_detail set bill_id = #{billId, jdbcType=BIGINT}, user_id = #{userId, jdbcType=BIGINT}, bill_detail_price = #{billDetailPrice, jdbcType=DECIMAL} where bill_detail_id = #{billDetailId, jdbcType=BIGINT}
+    update dd_bill_detail set bill_id = #{billId, jdbcType=BIGINT}, user_id = #{userId, jdbcType=BIGINT}, bill_detail_price = #{billDetailPrice, jdbcType=DECIMAL}, deleted = #{deleted, jdbcType=INTEGER} where bill_detail_id = #{billDetailId, jdbcType=BIGINT}
   </update>
   <update id="updateRangeByPrimaryKeySelective" parameterType="com.github.raphael008.model.BillDetail">
     update dd_bill_detail
@@ -243,6 +264,9 @@
       </if>
       <if test="billDetailPrice != null">
         bill_detail_price = #{billDetailPrice, jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted, jdbcType=INTEGER},
       </if>
     </set>
     where bill_detail_id = #{billDetailId, jdbcType=BIGINT}

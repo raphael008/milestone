@@ -11,7 +11,9 @@
     <result column="user_gender" jdbcType="INTEGER" property="userGender" />
     <result column="user_salt" jdbcType="VARCHAR" property="userSalt" />
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="blocked" jdbcType="INTEGER" property="blocked" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, user_name, user_nickname, user_email, user_age, user_avatar, user_gender, 
-    user_salt, creator_id, blocked
+    user_salt, creator_id, create_time, blocked, deleted
   </sql>
   <select id="selectByExample" parameterType="com.github.raphael008.model.UserExample" resultMap="BaseResultMap">
     select
@@ -109,11 +111,13 @@
     insert into bd_user (user_id, user_name, user_nickname, 
       user_email, user_age, user_avatar, 
       user_gender, user_salt, creator_id, 
-      blocked)
+      create_time, blocked, deleted
+      )
     values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{userNickname,jdbcType=VARCHAR}, 
       #{userEmail,jdbcType=VARCHAR}, #{userAge,jdbcType=INTEGER}, #{userAvatar,jdbcType=VARCHAR}, 
       #{userGender,jdbcType=INTEGER}, #{userSalt,jdbcType=VARCHAR}, #{creatorId,jdbcType=BIGINT}, 
-      #{blocked,jdbcType=INTEGER})
+      #{createTime,jdbcType=TIMESTAMP}, #{blocked,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.github.raphael008.model.User">
     insert into bd_user
@@ -145,8 +149,14 @@
       <if test="creatorId != null">
         creator_id,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
       <if test="blocked != null">
         blocked,
+      </if>
+      <if test="deleted != null">
+        deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -177,8 +187,14 @@
       <if test="creatorId != null">
         #{creatorId,jdbcType=BIGINT},
       </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="blocked != null">
         #{blocked,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -187,6 +203,13 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
+  </select>
+  <select id="findByUsername" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from bd_user
+    where user_name = #{username}
+    and deleted = 0
+    order by create_time desc limit 1
   </select>
   <update id="updateByExampleSelective" parameterType="map">
     update bd_user
@@ -218,8 +241,14 @@
       <if test="record.creatorId != null">
         creator_id = #{record.creatorId,jdbcType=BIGINT},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.blocked != null">
         blocked = #{record.blocked,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -237,7 +266,9 @@
       user_gender = #{record.userGender,jdbcType=INTEGER},
       user_salt = #{record.userSalt,jdbcType=VARCHAR},
       creator_id = #{record.creatorId,jdbcType=BIGINT},
-      blocked = #{record.blocked,jdbcType=INTEGER}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      blocked = #{record.blocked,jdbcType=INTEGER},
+      deleted = #{record.deleted,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -269,8 +300,14 @@
       <if test="creatorId != null">
         creator_id = #{creatorId,jdbcType=BIGINT},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="blocked != null">
         blocked = #{blocked,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
       </if>
     </set>
     where user_id = #{userId,jdbcType=BIGINT}
@@ -285,13 +322,15 @@
       user_gender = #{userGender,jdbcType=INTEGER},
       user_salt = #{userSalt,jdbcType=VARCHAR},
       creator_id = #{creatorId,jdbcType=BIGINT},
-      blocked = #{blocked,jdbcType=INTEGER}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      blocked = #{blocked,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=INTEGER}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
   <insert id="insertRange" keyColumn="user_id" keyProperty="userId" parameterType="com.github.raphael008.model.User" useGeneratedKeys="true">
-    insert into bd_user (user_id, user_name, user_nickname, user_email, user_age, user_avatar, user_gender, user_salt, creator_id, blocked) values
+    insert into bd_user (user_id, user_name, user_nickname, user_email, user_age, user_avatar, user_gender, user_salt, creator_id, create_time, blocked, deleted) values
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.userId, jdbcType=BIGINT}, #{item.userName, jdbcType=VARCHAR}, #{item.userNickname, jdbcType=VARCHAR}, #{item.userEmail, jdbcType=VARCHAR}, #{item.userAge, jdbcType=INTEGER}, #{item.userAvatar, jdbcType=VARCHAR}, #{item.userGender, jdbcType=INTEGER}, #{item.userSalt, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.blocked, jdbcType=INTEGER})
+      (#{item.userId, jdbcType=BIGINT}, #{item.userName, jdbcType=VARCHAR}, #{item.userNickname, jdbcType=VARCHAR}, #{item.userEmail, jdbcType=VARCHAR}, #{item.userAge, jdbcType=INTEGER}, #{item.userAvatar, jdbcType=VARCHAR}, #{item.userGender, jdbcType=INTEGER}, #{item.userSalt, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.createTime, jdbcType=TIMESTAMP}, #{item.blocked, jdbcType=INTEGER}, #{item.deleted, jdbcType=INTEGER})
     </foreach>
   </insert>
   <insert id="insertRangeSelective" parameterType="com.github.raphael008.model.User">
@@ -323,8 +362,14 @@
       <if test="creatorId != null">
         creator_id,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
       <if test="blocked != null">
         blocked,
+      </if>
+      <if test="deleted != null">
+        deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -355,13 +400,19 @@
       <if test="creatorId != null">
         #{creatorId, jdbcType=BIGINT},
       </if>
+      <if test="createTime != null">
+        #{createTime, jdbcType=TIMESTAMP},
+      </if>
       <if test="blocked != null">
         #{blocked, jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted, jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
   <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.User">
-    update bd_user set user_name = #{userName, jdbcType=VARCHAR}, user_nickname = #{userNickname, jdbcType=VARCHAR}, user_email = #{userEmail, jdbcType=VARCHAR}, user_age = #{userAge, jdbcType=INTEGER}, user_avatar = #{userAvatar, jdbcType=VARCHAR}, user_gender = #{userGender, jdbcType=INTEGER}, user_salt = #{userSalt, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, blocked = #{blocked, jdbcType=INTEGER} where user_id = #{userId, jdbcType=BIGINT}
+    update bd_user set user_name = #{userName, jdbcType=VARCHAR}, user_nickname = #{userNickname, jdbcType=VARCHAR}, user_email = #{userEmail, jdbcType=VARCHAR}, user_age = #{userAge, jdbcType=INTEGER}, user_avatar = #{userAvatar, jdbcType=VARCHAR}, user_gender = #{userGender, jdbcType=INTEGER}, user_salt = #{userSalt, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, create_time = #{createTime, jdbcType=TIMESTAMP}, blocked = #{blocked, jdbcType=INTEGER}, deleted = #{deleted, jdbcType=INTEGER} where user_id = #{userId, jdbcType=BIGINT}
   </update>
   <update id="updateRangeByPrimaryKeySelective" parameterType="com.github.raphael008.model.User">
     update bd_user
@@ -390,8 +441,14 @@
       <if test="creatorId != null">
         creator_id = #{creatorId, jdbcType=BIGINT},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime, jdbcType=TIMESTAMP},
+      </if>
       <if test="blocked != null">
         blocked = #{blocked, jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted, jdbcType=INTEGER},
       </if>
     </set>
     where user_id = #{userId, jdbcType=BIGINT}

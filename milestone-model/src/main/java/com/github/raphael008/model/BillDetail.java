@@ -1,9 +1,8 @@
 package com.github.raphael008.model;
 
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -15,4 +14,6 @@ public class BillDetail {
     private Long userId;
 
     private BigDecimal billDetailPrice;
+
+    private Integer deleted;
 }

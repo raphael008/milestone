@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping(value="user", produces = "application/json")
 public class UserController extends BaseControllerImpl<User, UserExample, Long> {
+
     @Autowired
     private UserService userService;
 
@@ -32,5 +34,12 @@ public class UserController extends BaseControllerImpl<User, UserExample, Long> 
     public Map addUser(@RequestBody UserRequestVO userRequestVO) {
         Map map = userManager.addUser(userRequestVO);
         return map;
+    }
+
+    @PostMapping("listUser")
+    public List listUser() {
+        UserExample userExample = new UserExample();
+//        userExample.createCriteria().andUserNameEqualTo("admin");
+        return userService.selectByExample(userExample);
     }
 }

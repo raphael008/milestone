@@ -38,6 +38,7 @@ public abstract class BaseControllerImpl<T, E, K> implements BaseController<T, E
         return this.getService().insertSelective(record);
     }
 
+    @PostMapping(value = "findAll", consumes = "application/json", produces = "application/json")
     @Override
     public List selectByExample(E example) {
         return this.getService().selectByExample(example);

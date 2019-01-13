@@ -28,4 +28,6 @@ public class User {
     private Date createTime;
 
     private Integer blocked;
+
+    private Integer deleted;
 }

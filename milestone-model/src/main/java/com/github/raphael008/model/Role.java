@@ -11,4 +11,6 @@ public class Role {
     private String roleName;
 
     private Long creatorId;
+
+    private Integer deleted;
 }

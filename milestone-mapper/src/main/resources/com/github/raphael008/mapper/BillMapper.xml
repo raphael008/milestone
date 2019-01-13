@@ -9,6 +9,7 @@
     <result column="remarks" jdbcType="VARCHAR" property="remarks" />
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    bill_id, bill_date, bill_price, bill_image, remarks, creator_id, create_time
+    bill_id, bill_date, bill_price, bill_image, remarks, creator_id, create_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.github.raphael008.model.BillExample" resultMap="BaseResultMap">
     select
@@ -104,10 +105,10 @@
   <insert id="insert" keyColumn="bill_id" keyProperty="billId" parameterType="com.github.raphael008.model.Bill" useGeneratedKeys="true">
     insert into dd_bill (bill_id, bill_date, bill_price, 
       bill_image, remarks, creator_id, 
-      create_time)
+      create_time, deleted)
     values (#{billId,jdbcType=BIGINT}, #{billDate,jdbcType=DATE}, #{billPrice,jdbcType=DECIMAL}, 
       #{billImage,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{creatorId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="bill_id" keyProperty="billId" parameterType="com.github.raphael008.model.Bill" useGeneratedKeys="true">
     insert into dd_bill
@@ -133,6 +134,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="billId != null">
@@ -155,6 +159,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -188,6 +195,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +211,8 @@
       bill_image = #{record.billImage,jdbcType=VARCHAR},
       remarks = #{record.remarks,jdbcType=VARCHAR},
       creator_id = #{record.creatorId,jdbcType=BIGINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      deleted = #{record.deleted,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
     </set>
     where bill_id = #{billId,jdbcType=BIGINT}
   </update>
@@ -237,13 +251,14 @@
       bill_image = #{billImage,jdbcType=VARCHAR},
       remarks = #{remarks,jdbcType=VARCHAR},
       creator_id = #{creatorId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=INTEGER}
     where bill_id = #{billId,jdbcType=BIGINT}
   </update>
   <insert id="insertRange" keyColumn="bill_id" keyProperty="billId" parameterType="com.github.raphael008.model.Bill" useGeneratedKeys="true">
-    insert into dd_bill (bill_id, bill_date, bill_price, bill_image, remarks, creator_id, create_time) values
+    insert into dd_bill (bill_id, bill_date, bill_price, bill_image, remarks, creator_id, create_time, deleted) values
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.billId, jdbcType=BIGINT}, #{item.billDate, jdbcType=DATE}, #{item.billPrice, jdbcType=DECIMAL}, #{item.billImage, jdbcType=VARCHAR}, #{item.remarks, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.createTime, jdbcType=TIMESTAMP})
+      (#{item.billId, jdbcType=BIGINT}, #{item.billDate, jdbcType=DATE}, #{item.billPrice, jdbcType=DECIMAL}, #{item.billImage, jdbcType=VARCHAR}, #{item.remarks, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.createTime, jdbcType=TIMESTAMP}, #{item.deleted, jdbcType=INTEGER})
     </foreach>
   </insert>
   <insert id="insertRangeSelective" keyColumn="bill_id" keyProperty="billId" parameterType="com.github.raphael008.model.Bill" useGeneratedKeys="true">
@@ -269,6 +284,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="billId != null">
@@ -292,10 +310,13 @@
       <if test="createTime != null">
         #{createTime, jdbcType=TIMESTAMP},
       </if>
+      <if test="deleted != null">
+        #{deleted, jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.Bill">
-    update dd_bill set bill_date = #{billDate, jdbcType=DATE}, bill_price = #{billPrice, jdbcType=DECIMAL}, bill_image = #{billImage, jdbcType=VARCHAR}, remarks = #{remarks, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, create_time = #{createTime, jdbcType=TIMESTAMP} where bill_id = #{billId, jdbcType=BIGINT}
+    update dd_bill set bill_date = #{billDate, jdbcType=DATE}, bill_price = #{billPrice, jdbcType=DECIMAL}, bill_image = #{billImage, jdbcType=VARCHAR}, remarks = #{remarks, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, create_time = #{createTime, jdbcType=TIMESTAMP}, deleted = #{deleted, jdbcType=INTEGER} where bill_id = #{billId, jdbcType=BIGINT}
   </update>
   <update id="updateRangeByPrimaryKeySelective" parameterType="com.github.raphael008.model.Bill">
     update dd_bill
@@ -317,6 +338,9 @@
       </if>
       <if test="createTime != null">
         create_time = #{createTime, jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted, jdbcType=INTEGER},
       </if>
     </set>
     where bill_id = #{billId, jdbcType=BIGINT}

@@ -5,6 +5,7 @@
     <id column="role_id" jdbcType="BIGINT" property="roleId" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_id, role_name, creator_id
+    role_id, role_name, creator_id, deleted
   </sql>
   <select id="selectByExample" parameterType="com.github.raphael008.model.RoleExample" resultMap="BaseResultMap">
     select
@@ -98,10 +99,10 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="role_id" keyProperty="roleId" parameterType="com.github.raphael008.model.Role" useGeneratedKeys="true">
-    insert into bd_role (role_id, role_name, creator_id
-      )
-    values (#{roleId,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR}, #{creatorId,jdbcType=BIGINT}
-      )
+    insert into bd_role (role_id, role_name, creator_id, 
+      deleted)
+    values (#{roleId,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR}, #{creatorId,jdbcType=BIGINT}, 
+      #{deleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="com.github.raphael008.model.Role" useGeneratedKeys="true">
     insert into bd_role
@@ -115,6 +116,9 @@
       <if test="creatorId != null">
         creator_id,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
@@ -125,6 +129,9 @@
       </if>
       <if test="creatorId != null">
         #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -146,6 +153,9 @@
       <if test="record.creatorId != null">
         creator_id = #{record.creatorId,jdbcType=BIGINT},
       </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,7 +165,8 @@
     update bd_role
     set role_id = #{record.roleId,jdbcType=BIGINT},
       role_name = #{record.roleName,jdbcType=VARCHAR},
-      creator_id = #{record.creatorId,jdbcType=BIGINT}
+      creator_id = #{record.creatorId,jdbcType=BIGINT},
+      deleted = #{record.deleted,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,19 +180,23 @@
       <if test="creatorId != null">
         creator_id = #{creatorId,jdbcType=BIGINT},
       </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
     </set>
     where role_id = #{roleId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.github.raphael008.model.Role">
     update bd_role
     set role_name = #{roleName,jdbcType=VARCHAR},
-      creator_id = #{creatorId,jdbcType=BIGINT}
+      creator_id = #{creatorId,jdbcType=BIGINT},
+      deleted = #{deleted,jdbcType=INTEGER}
     where role_id = #{roleId,jdbcType=BIGINT}
   </update>
   <insert id="insertRange" keyColumn="role_id" keyProperty="roleId" parameterType="com.github.raphael008.model.Role" useGeneratedKeys="true">
-    insert into bd_role (role_id, role_name, creator_id) values
+    insert into bd_role (role_id, role_name, creator_id, deleted) values
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.roleId, jdbcType=BIGINT}, #{item.roleName, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT})
+      (#{item.roleId, jdbcType=BIGINT}, #{item.roleName, jdbcType=VARCHAR}, #{item.creatorId, jdbcType=BIGINT}, #{item.deleted, jdbcType=INTEGER})
     </foreach>
   </insert>
   <insert id="insertRangeSelective" keyColumn="role_id" keyProperty="roleId" parameterType="com.github.raphael008.model.Role" useGeneratedKeys="true">
@@ -195,6 +210,9 @@
       <if test="creatorId != null">
         creator_id,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
@@ -206,10 +224,13 @@
       <if test="creatorId != null">
         #{creatorId, jdbcType=BIGINT},
       </if>
+      <if test="deleted != null">
+        #{deleted, jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateRangeByPrimaryKey" parameterType="com.github.raphael008.model.Role">
-    update bd_role set role_name = #{roleName, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT} where role_id = #{roleId, jdbcType=BIGINT}
+    update bd_role set role_name = #{roleName, jdbcType=VARCHAR}, creator_id = #{creatorId, jdbcType=BIGINT}, deleted = #{deleted, jdbcType=INTEGER} where role_id = #{roleId, jdbcType=BIGINT}
   </update>
   <update id="updateRangeByPrimaryKeySelective" parameterType="com.github.raphael008.model.Role">
     update bd_role
@@ -219,6 +240,9 @@
       </if>
       <if test="creatorId != null">
         creator_id = #{creatorId, jdbcType=BIGINT},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted, jdbcType=INTEGER},
       </if>
     </set>
     where role_id = #{roleId, jdbcType=BIGINT}

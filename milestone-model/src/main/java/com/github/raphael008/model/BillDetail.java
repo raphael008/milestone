@@ -14,4 +14,6 @@ public class BillDetail {
     private Long userId;
 
     private BigDecimal billDetailPrice;
+
+    private Integer deleted;
 }

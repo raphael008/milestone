@@ -39,7 +39,7 @@ public class AuthAspect {
             Object result = point.proceed();
             return result;
         } catch (Throwable throwable) {
-            throw new RuntimeException(throwable.getCause());
+            throw new RuntimeException(throwable);
         }
     }
 }

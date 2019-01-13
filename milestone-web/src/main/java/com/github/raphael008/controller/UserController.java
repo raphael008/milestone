@@ -1,6 +1,8 @@
 package com.github.raphael008.controller;
 
+import com.github.raphael008.auth.Auth;
 import com.github.raphael008.controller.impl.BaseControllerImpl;
+import com.github.raphael008.enums.BlockedStatus;
 import com.github.raphael008.manager.UserManager;
 import com.github.raphael008.model.User;
 import com.github.raphael008.model.UserExample;
@@ -37,9 +39,10 @@ public class UserController extends BaseControllerImpl<User, UserExample, Long> 
     }
 
     @PostMapping("listUser")
+    @Auth
     public List listUser() {
         UserExample userExample = new UserExample();
-//        userExample.createCriteria().andUserNameEqualTo("admin");
+        userExample.createCriteria().andBlockedEqualTo(BlockedStatus.NO.getIndex());
         return userService.selectByExample(userExample);
     }
 }
